@@ -1,21 +1,22 @@
 <h2>Записаться</h2>
 <p>На этой странице вы можете записаться в наш barber shop!</p>
 
+
 <form action = "/visit" method = "POST" role = "form">
   <div class="form-group">
     <label>Ваше имя:</label>
-    <input id='tt'name="username" type="txt" class="form-control" placeholder="Введите ваше имя" value="<%=@username%>"  >
+    <input name="username" type="text" class="form-control" placeholder="Введите ваше имя" value="<%=@username%>"  >
  </div>
 
 
   <div class="form-group">
     <label>Ваш телефон:</label>
-    <input id='bb' name="phone" type="txt" class="form-control" placeholder="Введите ваш номер телефона" value="<%=@phone%>" >
+    <input  name="phone" type="text" class="form-control" placeholder="Введите ваш номер телефона" value="<%=@phone%>" >
  </div>
 
   <div class="form-group">
     <label>Когда вас ждать?</label>
-    <input id='nn' name="data_time" type="txt" class="form-control" placeholder="Введите время и дату" value="<%=@data_time%>">
+    <input id="datetimepicker" name="data_time" type="text" class="form-control" placeholder="Введите время и дату" value="<%=@data_time%>">
  </div>
 
 
@@ -41,7 +42,7 @@
 
 <div class="form-group">   
 Выберите цвет для покраски:
-<select  id ="color" name="colors">
+<select  id ="color" name="color">
   <option  value ="#7bd148">Зеленый</option>
   <option  value = "#5484ed">Жирный синий</option>
   <option  value = "#a4bdfc">Синий</option>
@@ -61,12 +62,10 @@
 </form>
 <script type="text/javascript">
 
-  
+  $(function(){
 
-  $ (function(){
-
-    $ ('#color').simplecolorpicker();
-
-  })
+    $('#color').simplecolorpicker();
+    $('#datetimepicker').datetimepicker();
+  });ss
 
 </script>
