@@ -72,7 +72,13 @@ users
 erb "Пользователь: #{@username} Время записи: #{@data_time} Связь с клиентом #{@phone}  Парикмахер: #{@barber} Выбран цвет: #{@colors} "
 end	
 
+
+
 get '/showusers' do
- erb "Hello World"
+	@db = get_db
+    
+    @results = @db.execute 'SELECT * FROM Users ORDER BY id DESC'
+    @db.close
+	erb :showusers
 end
 

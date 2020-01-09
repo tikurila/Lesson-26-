@@ -1,10 +1,17 @@
 require 'sqlite3'
 
-db = SQLite3::Database.new 'movie.sqlite3'
+db = SQLite3::Database.new 'base.sqlite'
 
-db.execute "SELECT * FROM spn" do |spn|
-	puts spn
-	puts "======="
+db.results_as_hash = true
+
+db.execute "SELECT * FROM Users ORDER BY id DESC" do |row|
+
+	print row['Username']
+	print "\t-\t"
+	puts row['Datastamp']
+	puts "======================"
 end	
 
+
 db.close
+
