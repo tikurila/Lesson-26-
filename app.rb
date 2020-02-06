@@ -1,4 +1,4 @@
-
+	
 #encoding: utf-8
 require 'rubygems'
 require 'sinatra'
@@ -6,21 +6,43 @@ require 'sinatra/reloader'
 require 'sqlite3'
 
 
-def get_db
-	return SQLite3::Database.new 'base.sqlite'
+def is_barber_exists? db, name
+	db.execute('select * from Barbers where name=?', [name]).length > 0
+end	
+
+def seed_db db, barbers
+	barbers.each do |barber| 	
+		if !is_barber_exists? db, barber
+		db.execute 'insert into barbers (name) values (?)', [barber]
+	end
+	end	
 end
 
+def get_db
+	db = SQLite3::Database.new 'base.sqlite'
+    db.results_as_hash = true
+    return db
+end
 
 configure do
 	db = get_db
-	db.execute 'CREATE TABLE IF NOT EXISTS "users" (
-	"Id"	INTEGER PRIMARY KEY AUTOINCREMENT,
-	"Username"	TEXT,
-	"Phone"	TEXT,
-	"Datastamp"	TEXT,
-	"Barber"	TEXT,
-	"Color"	TEXT
-)'
+	db.execute 'CREATE TABLE IF NOT EXISTS "users" 
+	( "Id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+	 "Username"	TEXT,
+	 "Phone"	TEXT,
+	 "Datastamp"	TEXT,
+	 "Barber"	TEXT,
+	 "Color"	TEXT
+   )'
+
+
+	db.execute 'CREATE TABLE IF NOT EXISTS "barbers"
+	 (	"Id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+	    "name" TEXT
+     )'
+
+seed_db db, ['Dean Winchester', 'Sam Winchester', 'Castiel', 'Crowley', 'Jak']
+
 db.close
 end	
 
@@ -69,16 +91,15 @@ users
 (username, phone, datastamp, barber, color)
  values ( ?, ?, ?, ?, ?)', [@username, @phone, @data_time, @barber, @color]
 	
-erb "Пользователь: #{@username} Время записи: #{@data_time} Связь с клиентом #{@phone}  Парикмахер: #{@barber} Выбран цвет: #{@colors} "
+erb "Вы записаны! "
 end	
 
 
 
 get '/showusers' do
 	@db = get_db
-    
-    @results = @db.execute 'SELECT * FROM Users ORDER BY id DESC'
+    @db.results_as_hash = true
+    @vod = @db.execute 'SELECT * FROM Users ORDER BY id DESC '
     @db.close
 	erb :showusers
 end
-

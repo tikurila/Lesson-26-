@@ -1,0 +1,29 @@
+<h1>Список записавшихся</h1> 
+<br>
+
+ <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Имя</th>
+            <th>Телефон</th>
+            <th>Дата/Время</th>
+            <th>Парикмахер</th>
+            <th>Цвет</th>
+          </tr>
+        </thead>
+        <tbody>
+              <%  @vod.each do |row| %>
+           <tr>
+
+            <td><%= row['Id'] %> </td>
+            <td><%= row['Username'] %></td>
+            <td><%= row['Phone'] %></td>
+            <td><%= row['Datastamp'] %></td>
+            <td><%= row['Barber'] %></td>
+            <td><%= row['Color'] %></td>
+          
+          </tr>
+        <% end %>
+ </tbody>
+</table>
